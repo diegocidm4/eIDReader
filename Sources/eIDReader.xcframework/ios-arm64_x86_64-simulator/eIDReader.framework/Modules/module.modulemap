@@ -1,0 +1,11 @@
+framework module eIDReader {
+  umbrella header "eIDReader.h"
+  export *
+
+  module * { export * }
+}
+
+module eIDReader.Swift {
+  header "eIDReader-Swift.h"
+  requires objc
+}
