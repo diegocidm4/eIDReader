@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "bigint.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Boilertalk/BigInt.swift.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "4c25294ed1b8c816f12241cb4a66dbf3d571b8d2"
-      }
-    },
-    {
       "identity" : "cryptoswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
