@@ -14,9 +14,8 @@ Esta librería está disponible para en ios 14 o posterior.
 Esta librería permite la comunicación entre un dispositivo móvil y el DNIe Español u otros documentos electrónicos de identidad, mediante el uso de NFC. Es por ello que esta librería sólo puede ser usada en dispositivos móvil provistos de tecnología NFC, esta tecnología está disponible en todos los iphone a partir de iphone 7.
 
 Esta librería tiene las siguientes dependencias:
-- BigInt (https://github.com/Boilertalk/BigInt.swift.git)
-- OpenSSL (https://github.com/krzyzanowskim/OpenSSL.git)
-- CryptoSwift (https://github.com/krzyzanowskim/CryptoSwift.git)
+- OpenSSL (https://github.com/krzyzanowskim/OpenSSL.git) -> versón 1.1.1900
+- CryptoSwift (https://github.com/krzyzanowskim/CryptoSwift.git) -> versión 1.6.0
 
 ## Funcionalidades
 Esta ofrece las siguientes funcionalidades:
