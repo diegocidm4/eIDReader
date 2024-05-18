@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
-// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name eIDReader
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name eIDReader
 import CommonCrypto
 import Compression
 import CoreNFC
@@ -28,14 +28,14 @@ public struct DataGroupHash {
 public enum NFCViewDisplayMessage {
   case requestPresentPassport
   case authenticatingWithPassport(Swift.Int)
-  case readingDataGroupProgress(DataGroupId, Swift.Int)
-  case error(NFCPassportReaderError)
+  case readingDataGroupProgress(eIDReader.DataGroupId, Swift.Int)
+  case error(eIDReader.NFCPassportReaderError)
   case successfulRead
   case readCertificate(Swift.Int)
   case successfulReadOpenChannel
 }
 @available(iOS 13, macOS 10.15, *)
-extension NFCViewDisplayMessage {
+extension eIDReader.NFCViewDisplayMessage {
   public var description: Swift.String {
     get
   }
@@ -44,7 +44,7 @@ extension NFCViewDisplayMessage {
 public enum SecureMessagingSupportedAlgorithms {
   case DES
   case AES
-  public static func == (a: SecureMessagingSupportedAlgorithms, b: SecureMessagingSupportedAlgorithms) -> Swift.Bool
+  public static func == (a: eIDReader.SecureMessagingSupportedAlgorithms, b: eIDReader.SecureMessagingSupportedAlgorithms) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
@@ -52,11 +52,11 @@ public enum SecureMessagingSupportedAlgorithms {
 }
 @available(iOS 13, *)
 public class SecureMessaging {
-  public init(encryptionAlgorithm: SecureMessagingSupportedAlgorithms = .DES, ksenc: [Swift.UInt8], ksmac: [Swift.UInt8], ssc: [Swift.UInt8])
+  public init(encryptionAlgorithm: eIDReader.SecureMessagingSupportedAlgorithms = .DES, ksenc: [Swift.UInt8], ksmac: [Swift.UInt8], ssc: [Swift.UInt8])
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class NotImplementedDG : DataGroup {
+public class NotImplementedDG : eIDReader.DataGroup {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
@@ -86,7 +86,7 @@ public func generateRandomUInt8Array(_ size: Swift.Int) -> [Swift.UInt8]
 public func pad(_ toPad: [Swift.UInt8], blockSize: Swift.Int) -> [Swift.UInt8]
 public func unpad(_ tounpad: [Swift.UInt8]) -> [Swift.UInt8]
 @available(iOS 13, macOS 10.15, *)
-public func mac(algoName: SecureMessagingSupportedAlgorithms, key: [Swift.UInt8], msg: [Swift.UInt8]) -> [Swift.UInt8]
+public func mac(algoName: eIDReader.SecureMessagingSupportedAlgorithms, key: [Swift.UInt8], msg: [Swift.UInt8]) -> [Swift.UInt8]
 @available(iOS 13, macOS 10.15, *)
 public func desMAC(key: [Swift.UInt8], msg: [Swift.UInt8]) -> [Swift.UInt8]
 @available(iOS 13, macOS 10.15, *)
@@ -144,7 +144,7 @@ public enum PassportAuthenticationStatus {
   case notDone
   case success
   case failed
-  public static func == (a: PassportAuthenticationStatus, b: PassportAuthenticationStatus) -> Swift.Bool
+  public static func == (a: eIDReader.PassportAuthenticationStatus, b: eIDReader.PassportAuthenticationStatus) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
@@ -197,10 +197,10 @@ public class NFCPassportModel {
   public var phoneNumber: Swift.String? {
     get
   }
-  public var documentSigningCertificate: X509Wrapper? {
+  public var documentSigningCertificate: eIDReader.X509Wrapper? {
     get
   }
-  public var countrySigningCertificate: X509Wrapper? {
+  public var countrySigningCertificate: eIDReader.X509Wrapper? {
     get
   }
   public var LDSVersion: Swift.String {
@@ -209,25 +209,25 @@ public class NFCPassportModel {
   public var dataGroupsPresent: [Swift.String] {
     get
   }
-  public var dataGroupsAvailable: [DataGroupId] {
+  public var dataGroupsAvailable: [eIDReader.DataGroupId] {
     get
   }
-  public var dataGroupsRead: [DataGroupId : DataGroup] {
+  public var dataGroupsRead: [eIDReader.DataGroupId : eIDReader.DataGroup] {
     get
   }
-  public var dataGroupHashes: [DataGroupId : DataGroupHash] {
+  public var dataGroupHashes: [eIDReader.DataGroupId : eIDReader.DataGroupHash] {
     get
   }
-  public var cardAccess: CardAccess? {
+  public var cardAccess: eIDReader.CardAccess? {
     get
   }
-  public var BACStatus: PassportAuthenticationStatus {
+  public var BACStatus: eIDReader.PassportAuthenticationStatus {
     get
   }
-  public var PACEStatus: PassportAuthenticationStatus {
+  public var PACEStatus: eIDReader.PassportAuthenticationStatus {
     get
   }
-  public var chipAuthenticationStatus: PassportAuthenticationStatus {
+  public var chipAuthenticationStatus: eIDReader.PassportAuthenticationStatus {
     get
   }
   public var passportCorrectlySigned: Swift.Bool {
@@ -272,9 +272,9 @@ public class NFCPassportModel {
   public var motherName: Swift.String? {
     get
   }
-  public var authCert: DigitalCert?
-  public var signCert: DigitalCert?
-  public var dgpCert: DigitalCert?
+  public var authCert: eIDReader.DigitalCert?
+  public var signCert: eIDReader.DigitalCert?
+  public var dgpCert: eIDReader.DigitalCert?
   public var CAComponenteBase64: Swift.String?
   public var CAComponent: Foundation.Data?
   public var CAIntermediaBase64: Swift.String?
@@ -291,10 +291,10 @@ public class NFCPassportModel {
   public var signedMessage: [Swift.UInt8]?
   public init()
   public init(from dump: [Swift.String : Swift.String])
-  public func addDataGroup(_ id: DataGroupId, dataGroup: DataGroup)
-  public func getDataGroup(_ id: DataGroupId) -> DataGroup?
-  public func dumpPassportData(selectedDataGroups: [DataGroupId], includeActiveAuthenticationData: Swift.Bool = false) -> [Swift.String : Swift.String]
-  public func getHashesForDatagroups(hashAlgorythm: Swift.String) -> [DataGroupId : [Swift.UInt8]]
+  public func addDataGroup(_ id: eIDReader.DataGroupId, dataGroup: eIDReader.DataGroup)
+  public func getDataGroup(_ id: eIDReader.DataGroupId) -> eIDReader.DataGroup?
+  public func dumpPassportData(selectedDataGroups: [eIDReader.DataGroupId], includeActiveAuthenticationData: Swift.Bool = false) -> [Swift.String : Swift.String]
+  public func getHashesForDatagroups(hashAlgorythm: Swift.String) -> [eIDReader.DataGroupId : [Swift.UInt8]]
   public func verifyPassport(masterListURL: Foundation.URL?, useCMSVerification: Swift.Bool = false)
   public func verifyActiveAuthentication(challenge: [Swift.UInt8], signature: [Swift.UInt8])
   @objc deinit
@@ -302,7 +302,7 @@ public class NFCPassportModel {
 @available(iOS 13, macOS 10.15, *)
 public class ASN1Item : Swift.CustomDebugStringConvertible {
   public init(line: Swift.String)
-  public func getChild(_ child: Swift.Int) -> ASN1Item?
+  public func getChild(_ child: Swift.Int) -> eIDReader.ASN1Item?
   public func getNumberOfChildren() -> Swift.Int
   public var debugDescription: Swift.String {
     get
@@ -312,12 +312,12 @@ public class ASN1Item : Swift.CustomDebugStringConvertible {
 @available(iOS 13, macOS 10.15, *)
 public class SimpleASN1DumpParser {
   public init()
-  public func parse(data: Foundation.Data) throws -> ASN1Item
+  public func parse(data: Foundation.Data) throws -> eIDReader.ASN1Item
   public func test()
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup15 : DataGroup {
+public class DataGroup15 : eIDReader.DataGroup {
   public var rsaPublicKey: Swift.OpaquePointer? {
     get
   }
@@ -334,20 +334,20 @@ public class DataGroup15 : DataGroup {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class ChipAuthenticationPublicKeyInfo : SecurityInfo {
+public class ChipAuthenticationPublicKeyInfo : eIDReader.SecurityInfo {
   override public func getObjectIdentifier() -> Swift.String
   override public func getProtocolOIDString() -> Swift.String
   public func getKeyId() -> Swift.Int
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DigitalCert {
-  public var publicCert: PublicCert?
-  public var privateCert: PrivateCert?
+  public var publicCert: eIDReader.PublicCert?
+  public var privateCert: eIDReader.PrivateCert?
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup14 : DataGroup {
-  public var securityInfos: [SecurityInfo] {
+public class DataGroup14 : eIDReader.DataGroup {
+  public var securityInfos: [eIDReader.SecurityInfo] {
     get
   }
   @objc deinit
@@ -366,13 +366,13 @@ public class PACEHandler {
   public static let NO_PACE_KEY_REFERENCE: Swift.UInt8
   public static let MRZ_PACE_KEY_REFERENCE: Swift.UInt8
   public static let CAN_PACE_KEY_REFERENCE: Swift.UInt8
-  public init(cardAccess: CardAccess, tagReader: TagReader) throws
+  public init(cardAccess: eIDReader.CardAccess, tagReader: eIDReader.TagReader) throws
   public func doPACE(paceKeySeed: Swift.String, paceKeyReference: Swift.UInt8, completed: @escaping (Swift.Bool) -> ())
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
 public class DataGroup {
-  public var datagroupType: DataGroupId
+  public var datagroupType: eIDReader.DataGroupId
   public var body: [Swift.UInt8] {
     get
   }
@@ -400,14 +400,14 @@ extension Swift.Array where Element == Swift.UInt8 {
 @objc @available(iOS 13, *)
 public class PassportReader : ObjectiveC.NSObject {
   public var passiveAuthenticationUsesOpenSSL: Swift.Bool
-  public init(logLevel: LogLevel = .info, masterListURL: Foundation.URL? = nil)
+  public init(logLevel: eIDReader.LogLevel = .info, masterListURL: Foundation.URL? = nil)
   public func setMasterListURL(_ masterListURL: Foundation.URL)
   public func overrideNFCDataAmountToRead(amount: Swift.Int)
-  public func readPassport(accessKey: Swift.String, paceKeyReference: Swift.UInt8, tags: [DataGroupId] = [], skipSecureElements: Swift.Bool = true, customDisplayMessage: ((NFCViewDisplayMessage) -> Swift.String?)? = nil, leeCertificadosPublicos: Swift.Bool = true, completed: @escaping (NFCPassportModel?, NFCPassportReaderError?) -> ())
+  public func readPassport(accessKey: Swift.String, paceKeyReference: Swift.UInt8, tags: [eIDReader.DataGroupId] = [], skipSecureElements: Swift.Bool = true, customDisplayMessage: ((eIDReader.NFCViewDisplayMessage) -> Swift.String?)? = nil, leeCertificadosPublicos: Swift.Bool = true, completed: @escaping (eIDReader.NFCPassportModel?, eIDReader.NFCPassportReaderError?) -> ())
   @objc deinit
 }
 @available(iOS 13, *)
-extension PassportReader : CoreNFC.NFCTagReaderSessionDelegate {
+extension eIDReader.PassportReader : CoreNFC.NFCTagReaderSessionDelegate {
   public func tagReaderSessionDidBecomeActive(_ session: CoreNFC.NFCTagReaderSession)
   public func tagReaderSession(_ session: CoreNFC.NFCTagReaderSession, didInvalidateWithError error: any Swift.Error)
   public func tagReaderSession(_ session: CoreNFC.NFCTagReaderSession, didDetect tags: [CoreNFC.NFCTag])
@@ -443,7 +443,7 @@ public enum NFCPassportReaderError : Swift.Error {
   case InvalidAccess
 }
 @available(iOS 13, macOS 10.15, *)
-extension NFCPassportReaderError : Foundation.LocalizedError {
+extension eIDReader.NFCPassportReaderError : Foundation.LocalizedError {
   public var errorDescription: Swift.String? {
     get
   }
@@ -460,7 +460,7 @@ public enum OpenSSLError : Swift.Error {
   case UnableToDecryptRSASignature(Swift.String)
 }
 @available(iOS 13, macOS 10.15, *)
-extension OpenSSLError : Foundation.LocalizedError {
+extension eIDReader.OpenSSLError : Foundation.LocalizedError {
   public var errorDescription: Swift.String? {
     get
   }
@@ -470,13 +470,13 @@ public enum PassiveAuthenticationError : Swift.Error {
   case InvalidDataGroupHash(Swift.String)
   case SODMissing(Swift.String)
 }
-extension PassiveAuthenticationError : Foundation.LocalizedError {
+extension eIDReader.PassiveAuthenticationError : Foundation.LocalizedError {
   public var errorDescription: Swift.String? {
     get
   }
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup12 : DataGroup {
+public class DataGroup12 : eIDReader.DataGroup {
   public var issuingAuthority: Swift.String? {
     get
   }
@@ -510,14 +510,14 @@ public enum PACEMappingType {
   case GM
   case IM
   case CAM
-  public static func == (a: PACEMappingType, b: PACEMappingType) -> Swift.Bool
+  public static func == (a: eIDReader.PACEMappingType, b: eIDReader.PACEMappingType) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class PACEInfo : SecurityInfo {
+public class PACEInfo : eIDReader.SecurityInfo {
   public static let PARAM_ID_GFP_1024_160: Swift.Int
   public static let PARAM_ID_GFP_2048_224: Swift.Int
   public static let PARAM_ID_GFP_2048_256: Swift.Int
@@ -537,14 +537,14 @@ public class PACEInfo : SecurityInfo {
   public func getVersion() -> Swift.Int
   public func getParameterId() -> Swift.Int?
   public func getParameterSpec() throws -> Swift.Int32
-  public func getMappingType() throws -> PACEMappingType
+  public func getMappingType() throws -> eIDReader.PACEMappingType
   public func getKeyAgreementAlgorithm() throws -> Swift.String
   public func getCipherAlgorithm() throws -> Swift.String
   public func getDigestAlgorithm() throws -> Swift.String
   public func getKeyLength() throws -> Swift.Int
   public func createMappingKey() throws -> Swift.OpaquePointer
   public static func getParameterSpec(stdDomainParam: Swift.Int) throws -> Swift.Int32
-  public static func toMappingType(oid: Swift.String) throws -> PACEMappingType
+  public static func toMappingType(oid: Swift.String) throws -> eIDReader.PACEMappingType
   public static func toKeyAgreementAlgorithm(oid: Swift.String) throws -> Swift.String
   public static func toCipherAlgorithm(oid: Swift.String) throws -> Swift.String
   public static func toDigestAlgorithm(oid: Swift.String) throws -> Swift.String
@@ -552,7 +552,7 @@ public class PACEInfo : SecurityInfo {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DatosCertificadoUtils {
-  public static func obtenerTodosDatosCertificado(certificadoASN1: [ASN1Item]) throws -> DatosCertificado
+  public static func obtenerTodosDatosCertificado(certificadoASN1: [eIDReader.ASN1Item]) throws -> eIDReader.DatosCertificado
   @objc deinit
 }
 public struct eIDReader {
@@ -560,7 +560,7 @@ public struct eIDReader {
   public static func configure(apiKey: Swift.String)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup11 : DataGroup {
+public class DataGroup11 : eIDReader.DataGroup {
   public var fullName: Swift.String? {
     get
   }
@@ -603,7 +603,7 @@ public class DataGroup11 : DataGroup {
 public enum CertificateType {
   case documentSigningCertificate
   case issuerSigningCertificate
-  public static func == (a: CertificateType, b: CertificateType) -> Swift.Bool
+  public static func == (a: eIDReader.CertificateType, b: eIDReader.CertificateType) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
@@ -629,7 +629,7 @@ public enum CertificateItem : Swift.String {
 public class X509Wrapper {
   final public let cert: Swift.OpaquePointer
   public init?(with cert: Swift.OpaquePointer?)
-  public func getItemsAsDict() -> [CertificateItem : Swift.String]
+  public func getItemsAsDict() -> [eIDReader.CertificateItem : Swift.String]
   public func certToPEM() -> Swift.String
   public func getFingerprint() -> Swift.String?
   public func getNotBeforeDate() -> Swift.String?
@@ -653,7 +653,7 @@ public enum DocTypeEnum : Swift.String {
   }
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup1 : DataGroup {
+public class DataGroup1 : eIDReader.DataGroup {
   public var elements: [Swift.String : Swift.String] {
     get
   }
@@ -669,7 +669,7 @@ public class DatosICAO {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup7 : DataGroup {
+public class DataGroup7 : eIDReader.DataGroup {
   public var imageData: [Swift.UInt8] {
     get
   }
@@ -765,26 +765,26 @@ public class DatosCertificado {
   public func setmunicipioActual(municipioActual: Swift.String)
   public func getnumSoporte() -> Swift.String?
   public func setnumSoporte(numSoporte: Swift.String?)
-  public func getcertificadoAutenticacion() -> DatosCertificado?
-  public func setcertificadoAutenticacion(certificadoAutenticacion: DatosCertificado?)
-  public func getcertificadoFirma() -> DatosCertificado?
-  public func setcertificadoFirma(certificadoFirma: DatosCertificado?)
-  public func getcertificadoCA() -> DatosCertificado?
-  public func setcertificadoCA(certificadoCA: DatosCertificado?)
-  public func getPassport() -> NFCPassportModel?
-  public func setPassport(passport: NFCPassportModel?)
+  public func getcertificadoAutenticacion() -> eIDReader.DatosCertificado?
+  public func setcertificadoAutenticacion(certificadoAutenticacion: eIDReader.DatosCertificado?)
+  public func getcertificadoFirma() -> eIDReader.DatosCertificado?
+  public func setcertificadoFirma(certificadoFirma: eIDReader.DatosCertificado?)
+  public func getcertificadoCA() -> eIDReader.DatosCertificado?
+  public func setcertificadoCA(certificadoCA: eIDReader.DatosCertificado?)
+  public func getPassport() -> eIDReader.NFCPassportModel?
+  public func setPassport(passport: eIDReader.NFCPassportModel?)
   public func getIntegridadDocumento() -> Swift.Bool?
   public func setIntegridadDocumento(integridadDocumento: Swift.Bool?)
   public func getpemCertificadoFirmaSOD() -> Swift.String?
   public func setpemCertificadoFirmaSOD(pemCertificadoFirmaSOD: Swift.String?)
-  public func getdatosICAO() -> DatosICAO?
-  public func setdatosICAO(datosICAO: DatosICAO?)
+  public func getdatosICAO() -> eIDReader.DatosICAO?
+  public func setdatosICAO(datosICAO: eIDReader.DatosICAO?)
   public func getCan() -> Swift.String?
   public func setCan(can: Swift.String?)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DNIeUtils {
-  public static func obtenerTodosDatosDNIe(dnie: NFCPassportModel) -> DatosDNIe
+  public static func obtenerTodosDatosDNIe(dnie: eIDReader.NFCPassportModel) -> eIDReader.DatosDNIe
   public static func convertImageToBase64(image: UIKit.UIImage) -> Swift.String
   public static func convertBase64ToImage(imageString: Swift.String) -> UIKit.UIImage
   @objc deinit
@@ -803,7 +803,7 @@ public class DatosCertificado {
 @available(iOS 13, macOS 10.15, *)
 public class SimpleASN1DumpParserDNIe {
   public init()
-  public func parse(data: Foundation.Data) throws -> [ASN1Item]
+  public func parse(data: Foundation.Data) throws -> [eIDReader.ASN1Item]
   public func test()
   @objc deinit
 }
@@ -833,11 +833,11 @@ public enum DataGroupId : Swift.Int, Swift.CaseIterable {
   case SOD
   case Unknown
   public func getName() -> Swift.String
-  public static func getIDFromName(name: Swift.String) -> DataGroupId
+  public static func getIDFromName(name: Swift.String) -> eIDReader.DataGroupId
   public init?(rawValue: Swift.Int)
-  public typealias AllCases = [DataGroupId]
+  public typealias AllCases = [eIDReader.DataGroupId]
   public typealias RawValue = Swift.Int
-  public static var allCases: [DataGroupId] {
+  public static var allCases: [eIDReader.DataGroupId] {
     get
   }
   public var rawValue: Swift.Int {
@@ -850,7 +850,7 @@ public enum DataGroupId : Swift.Int, Swift.CaseIterable {
   public var path: Swift.String?
   public var commonName: Swift.String?
   public var certificadoBase64: Swift.String?
-  public var certificadoASN1: [ASN1Item]?
+  public var certificadoASN1: [eIDReader.ASN1Item]?
   @objc deinit
 }
 extension Swift.String {
@@ -869,7 +869,7 @@ extension Swift.String {
   public func startsWith(cadena: Swift.String) -> Swift.Bool
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup2 : DataGroup {
+public class DataGroup2 : eIDReader.DataGroup {
   public var nrImages: Swift.Int {
     get
   }
@@ -940,15 +940,15 @@ public class DataGroup2 : DataGroup {
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
 public class CardAccess {
-  public var securityInfos: [SecurityInfo] {
+  public var securityInfos: [eIDReader.SecurityInfo] {
     get
   }
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class ASN1ParseUtils {
-  public static func parseaCDF(passport: NFCPassportModel, data: [Swift.UInt8]) throws -> NFCPassportModel
-  public static func parseaPrKDF(passport: NFCPassportModel, data: [Swift.UInt8]) throws -> NFCPassportModel
-  public static func parseaCertificado(asn1Array: [ASN1Item]) throws -> DatosCertificado
+  public static func parseaCDF(passport: eIDReader.NFCPassportModel, data: [Swift.UInt8]) throws -> eIDReader.NFCPassportModel
+  public static func parseaPrKDF(passport: eIDReader.NFCPassportModel, data: [Swift.UInt8]) throws -> eIDReader.NFCPassportModel
+  public static func parseaCertificado(asn1Array: [eIDReader.ASN1Item]) throws -> eIDReader.DatosCertificado
   public static func convierteEnFecha(strDate: Swift.String, withFormat format: Swift.String = "dd/MM/yyyy") -> Foundation.Date?
   @objc deinit
 }
@@ -958,7 +958,7 @@ public class PassportUtils {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class DataGroup13 : DataGroup {
+public class DataGroup13 : eIDReader.DataGroup {
   public var apellido1: Swift.String? {
     get
   }
@@ -1010,7 +1010,7 @@ public class DataGroup13 : DataGroup {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class ChipAuthenticationInfo : SecurityInfo {
+public class ChipAuthenticationInfo : eIDReader.SecurityInfo {
   override public func getObjectIdentifier() -> Swift.String
   override public func getProtocolOIDString() -> Swift.String
   public func getKeyId() -> Swift.Int
@@ -1020,7 +1020,7 @@ public class ChipAuthenticationInfo : SecurityInfo {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, macOS 10.15, *)
-public class COM : DataGroup {
+public class COM : eIDReader.DataGroup {
   public var version: Swift.String {
     get
   }
@@ -1039,9 +1039,9 @@ public enum LogLevel : Swift.Int, Swift.CaseIterable {
   case warning
   case error
   public init?(rawValue: Swift.Int)
-  public typealias AllCases = [LogLevel]
+  public typealias AllCases = [eIDReader.LogLevel]
   public typealias RawValue = Swift.Int
-  public static var allCases: [LogLevel] {
+  public static var allCases: [eIDReader.LogLevel] {
     get
   }
   public var rawValue: Swift.Int {
@@ -1049,7 +1049,7 @@ public enum LogLevel : Swift.Int, Swift.CaseIterable {
   }
 }
 @_hasMissingDesignatedInitializers public class Log {
-  public static var logLevel: LogLevel
+  public static var logLevel: eIDReader.LogLevel
   public static var storeLogs: Swift.Bool
   public static var logData: [Swift.String]
   public class func verbose(_ msg: @autoclosure () -> Swift.String)
@@ -1066,8 +1066,8 @@ public class BACHandler {
   public var ksmac: [Swift.UInt8]
   public var kifd: [Swift.UInt8]
   public init()
-  public init(tagReader: TagReader)
-  public func performBACAndGetSessionKeys(mrzKey: Swift.String, completed: @escaping (_ error: NFCPassportReaderError?) -> ())
+  public init(tagReader: eIDReader.TagReader)
+  public func performBACAndGetSessionKeys(mrzKey: Swift.String, completed: @escaping (_ error: eIDReader.NFCPassportReaderError?) -> ())
   public func sessionKeys(data: [Swift.UInt8]) throws -> ([Swift.UInt8], [Swift.UInt8], [Swift.UInt8])
   @objc deinit
 }
@@ -1087,46 +1087,46 @@ public class BACHandler {
   public static let ISO_9796_2_PADDING_START: Swift.Int
   public static let ISO_9796_2_PADDING_END: Swift.Int
   public static func handleProgress(percentualProgress: Swift.Int) -> Swift.String
-  public static func customDisplayMessage(displayMessage: NFCViewDisplayMessage) -> Swift.String
+  public static func customDisplayMessage(displayMessage: eIDReader.NFCViewDisplayMessage) -> Swift.String
   @objc deinit
 }
-extension SecureMessagingSupportedAlgorithms : Swift.Equatable {}
-extension SecureMessagingSupportedAlgorithms : Swift.Hashable {}
-extension PassportAuthenticationStatus : Swift.Equatable {}
-extension PassportAuthenticationStatus : Swift.Hashable {}
-extension DNIeSingPadding : Swift.Equatable {}
-extension DNIeSingPadding : Swift.Hashable {}
-extension DNIeSingPadding : Swift.RawRepresentable {}
-extension PACEMappingType : Swift.Equatable {}
-extension PACEMappingType : Swift.Hashable {}
+extension eIDReader.SecureMessagingSupportedAlgorithms : Swift.Equatable {}
+extension eIDReader.SecureMessagingSupportedAlgorithms : Swift.Hashable {}
+extension eIDReader.PassportAuthenticationStatus : Swift.Equatable {}
+extension eIDReader.PassportAuthenticationStatus : Swift.Hashable {}
+extension eIDReader.DNIeSingPadding : Swift.Equatable {}
+extension eIDReader.DNIeSingPadding : Swift.Hashable {}
+extension eIDReader.DNIeSingPadding : Swift.RawRepresentable {}
+extension eIDReader.PACEMappingType : Swift.Equatable {}
+extension eIDReader.PACEMappingType : Swift.Hashable {}
 @available(iOS 13, macOS 10.15, *)
-extension CertificateType : Swift.Equatable {}
+extension eIDReader.CertificateType : Swift.Equatable {}
 @available(iOS 13, macOS 10.15, *)
-extension CertificateType : Swift.Hashable {}
+extension eIDReader.CertificateType : Swift.Hashable {}
 @available(iOS 13, macOS 10.15, *)
-extension CertificateItem : Swift.Equatable {}
+extension eIDReader.CertificateItem : Swift.Equatable {}
 @available(iOS 13, macOS 10.15, *)
-extension CertificateItem : Swift.Hashable {}
+extension eIDReader.CertificateItem : Swift.Hashable {}
 @available(iOS 13, macOS 10.15, *)
-extension CertificateItem : Swift.RawRepresentable {}
+extension eIDReader.CertificateItem : Swift.RawRepresentable {}
 @available(iOS 13, macOS 10.15, *)
-extension DocTypeEnum : Swift.Equatable {}
+extension eIDReader.DocTypeEnum : Swift.Equatable {}
 @available(iOS 13, macOS 10.15, *)
-extension DocTypeEnum : Swift.Hashable {}
+extension eIDReader.DocTypeEnum : Swift.Hashable {}
 @available(iOS 13, macOS 10.15, *)
-extension DocTypeEnum : Swift.RawRepresentable {}
-extension DNIeOperations : Swift.Equatable {}
-extension DNIeOperations : Swift.Hashable {}
-extension DNIeOperations : Swift.RawRepresentable {}
-extension DNIeCertificates : Swift.Equatable {}
-extension DNIeCertificates : Swift.Hashable {}
-extension DNIeCertificates : Swift.RawRepresentable {}
+extension eIDReader.DocTypeEnum : Swift.RawRepresentable {}
+extension eIDReader.DNIeOperations : Swift.Equatable {}
+extension eIDReader.DNIeOperations : Swift.Hashable {}
+extension eIDReader.DNIeOperations : Swift.RawRepresentable {}
+extension eIDReader.DNIeCertificates : Swift.Equatable {}
+extension eIDReader.DNIeCertificates : Swift.Hashable {}
+extension eIDReader.DNIeCertificates : Swift.RawRepresentable {}
 @available(iOS 13, macOS 10.15, *)
-extension DataGroupId : Swift.Equatable {}
+extension eIDReader.DataGroupId : Swift.Equatable {}
 @available(iOS 13, macOS 10.15, *)
-extension DataGroupId : Swift.Hashable {}
+extension eIDReader.DataGroupId : Swift.Hashable {}
 @available(iOS 13, macOS 10.15, *)
-extension DataGroupId : Swift.RawRepresentable {}
-extension LogLevel : Swift.Equatable {}
-extension LogLevel : Swift.Hashable {}
-extension LogLevel : Swift.RawRepresentable {}
+extension eIDReader.DataGroupId : Swift.RawRepresentable {}
+extension eIDReader.LogLevel : Swift.Equatable {}
+extension eIDReader.LogLevel : Swift.Hashable {}
+extension eIDReader.LogLevel : Swift.RawRepresentable {}
