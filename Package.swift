@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/krzyzanowskim/OpenSSL.git", exact: "1.1.900"),
+        .package(url: "https://github.com/krzyzanowskim/OpenSSL.git", exact: "1.1.1900"),
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", exact: "1.6.0")
     ],
     targets: [
