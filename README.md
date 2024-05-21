@@ -18,9 +18,9 @@ Esta librería tiene las siguientes dependencias:
 - CryptoSwift (https://github.com/krzyzanowskim/CryptoSwift.git) -> versión 1.6.0
 
 ## Funcionalidades
-Esta ofrece las siguientes funcionalidades:
-- Lectura de datos públicos del DNIe o cualquier documento electrónico de identidad:
-Utilizando can para establecer canal seguro.
+Esta librería ofrece las siguientes funcionalidades:
+### Lectura de datos públicos del DNIe o cualquier documento electrónico de identidad:
+#### Utilizando can para establecer canal seguro.
 ```Swift
         passportReader.readPassport(accessKey: can, paceKeyReference: PACEHandler.CAN_PACE_KEY_REFERENCE, tags: [], skipSecureElements: true, customDisplayMessage: { (displayMessage) in  return NFCUtils.customDisplayMessage(displayMessage: displayMessage)
         }, completed: { (passport, error) in
@@ -33,7 +33,7 @@ Utilizando can para establecer canal seguro.
         })
     }```
 
-Utilizando mrz para establecer canal seguro.    
+#### Utilizando mrz para establecer canal seguro.    
 ```Swift
         passportReader.readPassport(accessKey: mrzKey, paceKeyReference: PACEHandler.MRZ_PACE_KEY_REFERENCE, tags: [], skipSecureElements: true, customDisplayMessage: { (displayMessage) in
         return NFCUtils.customDisplayMessage(displayMessage: displayMessage)
