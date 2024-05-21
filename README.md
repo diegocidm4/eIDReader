@@ -31,7 +31,8 @@ Esta librería ofrece las siguientes funcionalidades:
                 print("Error: \(error?.localizedDescription)")
             }
         })
-    }```
+    }
+```
 
 #### Utilizando mrz para establecer canal seguro.    
 ```Swift
@@ -45,7 +46,8 @@ Esta librería ofrece las siguientes funcionalidades:
                 print("Error: \(error?.localizedDescription)")
             }
         })
-    }```    
+    }
+```    
 
 ## Instalación
 
